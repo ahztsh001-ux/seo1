@@ -18,15 +18,15 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm install   # 改成 npm install（不再要求 lock 文件）
+        run: npm ci --ignore-scripts   # 优先使用 lock，如果没有就自动生成
 
-      - name: Build Vite + Electron
-        run: npm run build:app   # 使用你项目自带的打包命令
+      - name: Build & Package EXE
+        run: npm run build:app
 
       - name: Upload EXE
         uses: actions/upload-artifact@v4
         with:
-          name: SEO-Pipeline-Windows-EXE
+          name: SEO-Pipeline-Windows-安装包
           path: |
             release/*.exe
             release/*.blockmap
