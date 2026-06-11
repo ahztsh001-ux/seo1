@@ -1,7 +1,7 @@
 name: Build Windows EXE
 
 on:
-  workflow_dispatch:  # 手动触发
+  workflow_dispatch:
 
 jobs:
   build:
@@ -18,23 +18,15 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install   # 改成 npm install（不再要求 lock 文件）
 
-      - name: Build Vite
-        run: npm run build
-
-      - name: Install Electron Builder
-        run: npm install electron electron-builder --save-dev
-
-      - name: Package to EXE
-        run: npx electron-builder --win --config electron-builder.json
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build Vite + Electron
+        run: npm run build:app   # 使用你项目自带的打包命令
 
       - name: Upload EXE
         uses: actions/upload-artifact@v4
         with:
           name: SEO-Pipeline-Windows-EXE
           path: |
-            dist/*.exe
-            dist/*.blockmap
+            release/*.exe
+            release/*.blockmap
