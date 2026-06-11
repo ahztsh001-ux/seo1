@@ -1,0 +1,72 @@
+{
+  "name": "seo-pipeline",
+  "private": true,
+  "version": "2.0.0",
+  "type": "module",
+  "description": "SEO Pipeline Desktop — local-first SEO content intelligence tool. Rule engine works offline; AI and live search are pluggable enhancements.",
+  "main": "electron/main.js",
+  "scripts": {
+    "dev": "vite",
+    "dev:app": "concurrently -k \"vite\" \"wait-on http://localhost:5173 && cross-env VITE_DEV_SERVER_URL=http://localhost:5173 electron .\"",
+    "build": "vite build",
+    "build:app": "vite build && electron-builder --win",
+    "pack:dir": "vite build && electron-builder --dir",
+    "preview": "vite preview",
+    "lint": "eslint . --ext js,jsx,cjs --report-unused-disable-directives --max-warnings 0",
+    "server": "node server/index.js",
+    "batch": "node cli/batch.js"
+  },
+  "dependencies": {
+    "iconv-lite": "^0.6.3",
+    "lucide-react": "^0.383.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "sql.js": "^1.10.3",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "concurrently": "^8.2.2",
+    "cross-env": "^7.0.3",
+    "electron": "^31.3.0",
+    "electron-builder": "^24.13.3",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react": "^7.34.3",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-plugin-react-refresh": "^0.4.7",
+    "vite": "^5.3.4",
+    "wait-on": "^7.2.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "build": {
+    "appId": "com.seopipeline.desktop",
+    "productName": "SEO Pipeline",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**",
+      "electron/**",
+      "shared/**",
+      "package.json"
+    ],
+    "asarUnpack": [
+      "node_modules/sql.js/dist/sql-wasm.wasm"
+    ],
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "shortcutName": "SEO Pipeline"
+    }
+  }
+}
